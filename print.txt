@@ -1,0 +1,49 @@
+Requirement already satisfied: sklearn in /root/.local/lib/python3.6/site-packages (0.0)
+Requirement already satisfied: scikit-learn in /root/.local/lib/python3.6/site-packages (from sklearn) (0.23.1)
+Requirement already satisfied: joblib>=0.11 in /root/.local/lib/python3.6/site-packages (from scikit-learn->sklearn) (0.16.0)
+Requirement already satisfied: numpy>=1.13.3 in /usr/local/lib/python3.6/dist-packages (from scikit-learn->sklearn) (1.18.1)
+Requirement already satisfied: threadpoolctl>=2.0.0 in /root/.local/lib/python3.6/site-packages (from scikit-learn->sklearn) (2.1.0)
+Requirement already satisfied: scipy>=0.19.1 in /usr/local/lib/python3.6/dist-packages (from scikit-learn->sklearn) (1.5.1)
+Requirement already satisfied: gin-config in /root/.local/lib/python3.6/site-packages (0.3.0)
+Requirement already satisfied: six>=1.10.0 in /root/.local/lib/python3.6/site-packages (from gin-config) (1.15.0)
+Requirement already satisfied: simplejson in /root/.local/lib/python3.6/site-packages (3.17.2)
+Requirement already satisfied: tensorflow_probability==0.7 in /root/.local/lib/python3.6/site-packages (0.7.0)
+Requirement already satisfied: decorator in /usr/local/lib/python3.6/dist-packages (from tensorflow_probability==0.7) (4.4.1)
+Requirement already satisfied: numpy>=1.13.3 in /usr/local/lib/python3.6/dist-packages (from tensorflow_probability==0.7) (1.18.1)
+Requirement already satisfied: six>=1.10.0 in /root/.local/lib/python3.6/site-packages (from tensorflow_probability==0.7) (1.15.0)
+Requirement already satisfied: cloudpickle>=0.6.1 in /root/.local/lib/python3.6/site-packages (from tensorflow_probability==0.7) (1.5.0)
+Requirement already satisfied: pandas in /root/.local/lib/python3.6/site-packages (1.0.5)
+Requirement already satisfied: pytz>=2017.2 in /usr/local/lib/python3.6/dist-packages (from pandas) (2020.1)
+Requirement already satisfied: numpy>=1.13.3 in /usr/local/lib/python3.6/dist-packages (from pandas) (1.18.1)
+Requirement already satisfied: python-dateutil>=2.6.1 in /usr/local/lib/python3.6/dist-packages (from pandas) (2.8.1)
+Requirement already satisfied: six>=1.5 in /root/.local/lib/python3.6/site-packages (from python-dateutil>=2.6.1->pandas) (1.15.0)
+Gin base config for model training:
+--
+config/unsupervised_study_v1/model_configs/shared.gin
+
+Gin bindings for model training:
+--
+dataset.name = 'dsprites_full'
+encoder.encoder_fn = @conv_encoder
+decoder.decoder_fn = @deconv_decoder
+model.name = 'beta_vae'
+vae.beta = 1.0
+model.model = @vae()
+model.random_seed = 0
+
+Gin config files for postprocessing (random seeds may be set later):
+--
+config/unsupervised_study_v1/postprocess_configs/mean.gin
+config/unsupervised_study_v1/postprocess_configs/sampled.gin
+
+Gin config files for evaluation (random seeds may be set later):
+--
+config/unsupervised_study_v1/metric_configs/beta_vae_sklearn.gin
+config/unsupervised_study_v1/metric_configs/mig.gin
+config/unsupervised_study_v1/metric_configs/downstream_task_boosted_trees.gin
+config/unsupervised_study_v1/metric_configs/downstream_task_logistic_regression.gin
+config/unsupervised_study_v1/metric_configs/unsupervised.gin
+config/unsupervised_study_v1/metric_configs/modularity_explicitness.gin
+config/unsupervised_study_v1/metric_configs/dci.gin
+config/unsupervised_study_v1/metric_configs/factor_vae_metric.gin
+config/unsupervised_study_v1/metric_configs/sap_score.gin
